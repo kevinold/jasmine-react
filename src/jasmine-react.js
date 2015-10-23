@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var spies = [],
   componentStubs = [],
@@ -11,8 +12,8 @@ var jasmineReact = {
     }
 
     var comp = (typeof callback === "undefined") ?
-      React.render(component, container) :
-      React.render(component, container, callback);
+      ReactDOM.render(component, container) :
+      ReactDOM.render(component, container, callback);
 
     // keep track of the components we render, so we can unmount them later
     renderedComponents.push(comp);
@@ -44,7 +45,8 @@ var jasmineReact = {
   },
 
   classComponentConstructor: function(klass){
-    return klass.type ||                // React 0.11.1
+    return klass || // React 0.14
+           klass.type ||  // React 0.11.1
            klass.componentConstructor;  // React 0.8.0
   },
 
@@ -52,7 +54,7 @@ var jasmineReact = {
     var componentConstructor = this.classComponentConstructor(klass);
 
     if(typeof componentConstructor === "undefined"){
-      throw("A component constructor could not be found for this class.  Are you sure you passed in a the component definition for a React component?");
+      //throw("A component constructor could not be found for this class.  Are you sure you passed in a the component definition for a React component?");
     }
 
     return componentConstructor.prototype;
